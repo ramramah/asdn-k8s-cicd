@@ -28,9 +28,8 @@ pipeline {
         stage('Run Tests in Docker') {
             steps {
                 // شغّل pytest من داخل /app لأن هناك موجود tests وsrc بالصورة
-                sh """
-                  docker run --rm -w /app ${IMAGE} pytest -q
-                """
+                sh "docker run --rm -w /app -e PYTHONPATH=/app $IMAGE pytest -q"
+
             }
         }
 
