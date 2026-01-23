@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'grafanaw'
-        IMAGE_NAME     = 'asdn_project'
+        IMAGE_REPO = "ramramah/asdn_project"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+        IMAGE      = "${IMAGE_REPO}:${IMAGE_TAG}"
+        IMAGE_LATEST = "${IMAGE_REPO}:latest"
     }
 
     stages {
@@ -13,44 +15,50 @@ pipeline {
             }
         }
 
-        stage('Install requirements & Test') {
+        stage('Build App Image') {
             steps {
                 dir('app') {
-                    sh 'pip install --no-cache-dir -r requirements.txt'
-                    sh 'pytest -q'
+                    sh """
+                      docker build -t ${IMAGE} -t ${IMAGE_LATEST} .
+                    """
                 }
             }
         }
 
-        stage('Build Docker image') {
+        stage('Run Tests in Docker') {
             steps {
-                dir('app') {
-                    sh 'docker build -t $DOCKERHUB_USER/$IMAGE_NAME:$BUILD_NUMBER .'
-                }
+                // شغّل pytest من داخل /app لأن هناك موجود tests وsrc بالصورة
+                sh """
+                  docker run --rm -w /app ${IMAGE} pytest -q
+                """
             }
         }
 
-        stage('Push Docker image') {
+        stage('Push Image') {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS'
                 )]) {
-                    sh '''
-                        echo "$PASS" | docker login -u "$USER" --password-stdin
-                        docker push $DOCKERHUB_USER/$IMAGE_NAME:$BUILD_NUMBER
-                    '''
+                    sh """
+                      echo "${PASS}" | docker login -u "${USER}" --password-stdin
+                      docker push ${IMAGE}
+                      docker push ${IMAGE_LATEST}
+                    """
                 }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
-                    kubectl set image deployment/asdn-project \
-                        asdn-project=$DOCKERHUB_USER/$IMAGE_NAME:$BUILD_NUMBER
-                '''
+                // تأكد أن k8s/ موجودة في root repo وفيها deployment/service
+                sh """
+                  kubectl apply -f k8s/
+                  kubectl rollout status deployment/asdn-project --timeout=120s || true
+                  kubectl get pods -o wide
+                  kubectl get svc
+                """
             }
         }
     }
