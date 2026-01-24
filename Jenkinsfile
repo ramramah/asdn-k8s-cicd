@@ -50,15 +50,20 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-            steps {
-                // تأكد أن k8s/ موجودة في root repo وفيها deployment/service
-                sh """
-                  kubectl apply -f k8s/
-                  kubectl rollout status deployment/asdn-project --timeout=120s || true
-                  kubectl get pods -o wide
-                  kubectl get svc
-                """
-            }
-        }
+  steps {
+    withCredentials([string(credentialsId: 'k8s-jenkins-token', variable: 'K8S_TOKEN')]) {
+      sh '''
+        kubectl \
+          --server="https://kubernetes.docker.internal:6443" \
+          --token="$K8S_TOKEN" \
+          --insecure-skip-tls-verify=true \
+          apply -f k8s/ \
+          --validate=false
+      '''
+    }
+  }
+}
+
+
     }
 }
