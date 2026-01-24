@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_REPO = "ramramah/asdn_project"
+        IMAGE_REPO = "grafanaw/asdn_project"
         IMAGE_TAG  = "${BUILD_NUMBER}"
         IMAGE      = "${IMAGE_REPO}:${IMAGE_TAG}"
         IMAGE_LATEST = "${IMAGE_REPO}:latest"
