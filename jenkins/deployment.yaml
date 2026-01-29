@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
-  namespace: devops-tools
+  namespace: jenkins
 spec:
   replicas: 1
   selector:
@@ -13,10 +13,10 @@ spec:
       labels:
         app: jenkins
     spec:
-      serviceAccountName: jenkins-admin
+      serviceAccountName: jenkins-deployer
       containers:
         - name: jenkins
-          image: grafanaw/asdn_jenkins:1.0.0
+          image: ramramah/jenkins-asdn:lts
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
@@ -34,8 +34,7 @@ spec:
               mountPath: /var/run/docker.sock
       volumes:
         - name: jenkins-home
-          persistentVolumeClaim:
-            claimName: jenkins-pvc
+          emptyDir: {}
         - name: docker-socket
           hostPath:
             path: /var/run/docker.sock
