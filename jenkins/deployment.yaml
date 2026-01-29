@@ -17,9 +17,10 @@ spec:
       containers:
         - name: jenkins
           image: ramramah/jenkins-asdn:lts
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+            - containerPort: 50000
           resources:
             requests:
               cpu: "500m"
