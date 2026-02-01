@@ -56,6 +56,8 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: 'kubeconfig-file', variable: 'KUBECONFIG_FILE')]) {
           sh '''
+            kubectl --kubeconfig="$KUBECONFIG_FILE" cluster-info
+            kubectl --kubeconfig="$KUBECONFIG_FILE" get nodes
             kubectl --kubeconfig="$KUBECONFIG_FILE" apply -f k8s/ --validate=false
           '''
         }

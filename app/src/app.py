@@ -19,7 +19,7 @@ def info():
     return jsonify(
         app="ASDN Network Service",
         version=APP_VERSION,
-        description="Simple HTTP network service for CI/CD on Kubernetes"
+        description="ASDN service - pipeline test 1.0.2"
     ), 200
 
 # NEW endpoint to verify new deployment easily
