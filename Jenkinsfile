@@ -54,12 +54,9 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        withCredentials([string(credentialsId: 'k8s-jenkins-token', variable: 'K8S_TOKEN')]) {
+        withCredentials([file(credentialsId: 'kubeconfig-file', variable: 'KUBECONFIG_FILE')]) {
           sh '''
-            kubectl --server="https://kubernetes.docker.internal:6443" \
-              --token="$K8S_TOKEN" \
-              --insecure-skip-tls-verify=true \
-              apply -f k8s/ --validate=false
+            kubectl --kubeconfig="$KUBECONFIG_FILE" apply -f k8s/ --validate=false
           '''
         }
       }
