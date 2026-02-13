@@ -24,8 +24,6 @@ The pipeline automates build, testing, image publishing, deployment, and monitor
 
 ## 🏗 Architecture Overview
 
----
-
 ## ⚙️ CI/CD Pipeline Stages
 
 1. Checkout source code
