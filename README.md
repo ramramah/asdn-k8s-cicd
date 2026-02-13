@@ -112,6 +112,3 @@ Secure Jenkins authentication
 Monitoring with Prometheus & Grafana
 
 Self-healing & scalable architecture
-
----
-
