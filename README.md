@@ -23,6 +23,7 @@ The pipeline automates build, testing, image publishing, deployment, and monitor
 ---
 
 ## 🏗 Architecture Overview
+```bash
 Developer
 ↓
 GitHub Repository
@@ -38,12 +39,12 @@ Kubernetes Cluster (2 Replicas)
 Service (NodePort)
 ↓
 Prometheus → Grafana
-
+```
 
 ---
 
 ## 📂 Project Structure
-
+```bash
 asdn-k8s-cicd/
 │
 ├── app/ # Flask application
@@ -52,7 +53,7 @@ asdn-k8s-cicd/
 ├── Jenkinsfile # CI/CD pipeline definition
 ├── grafana-values.yaml # Monitoring customization
 └── README.md
-
+```
 ---
 
 ## ⚙️ CI/CD Pipeline Stages
