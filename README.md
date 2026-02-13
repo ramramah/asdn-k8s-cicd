@@ -23,6 +23,37 @@ The pipeline automates build, testing, image publishing, deployment, and monitor
 ---
 
 ## 🏗 Architecture Overview
+Developer
+↓
+GitHub Repository
+↓
+Jenkins (CI/CD Engine)
+↓
+Docker Image Build
+↓
+Docker Hub
+↓
+Kubernetes Cluster (2 Replicas)
+↓
+Service (NodePort)
+↓
+Prometheus → Grafana
+
+
+---
+
+## 📂 Project Structure
+
+asdn-k8s-cicd/
+│
+├── app/ # Flask application
+├── k8s/ # Kubernetes manifests
+├── jenkins/ # Jenkins configuration
+├── Jenkinsfile # CI/CD pipeline definition
+├── grafana-values.yaml # Monitoring customization
+└── README.md
+
+---
 
 ## ⚙️ CI/CD Pipeline Stages
 
@@ -40,10 +71,6 @@ The pipeline automates build, testing, image publishing, deployment, and monitor
 Apply manifests:
 
 ```bash
-kubectl apply -f k8s/
-
-
-**##**📂 Project Structure
 
 Verify deployment:
 kubectl get pods
@@ -53,7 +80,6 @@ kubectl get svc
 🔐 Kubernetes Authentication (Jenkins)
 
 A ServiceAccount was created for secure cluster access:
-
 kubectl create namespace jenkins
 kubectl create serviceaccount jenkins-deployer -n jenkins
 kubectl create clusterrolebinding jenkins-deployer-binding \
@@ -63,17 +89,11 @@ kubectl create clusterrolebinding jenkins-deployer-binding \
 📊 Monitoring Stack
 
 Installed using Helm:
-
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring
-
-
 Access Grafana:
-
 kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
-
 Then open:
-
 http://localhost:3000
 
 ✅ Final Validation
@@ -105,6 +125,7 @@ Click the ⚙️ next to **About** and add:
 
 ### Description:
 CI/CD pipeline for Kubernetes deployment using Jenkins, Docker, Helm, Prometheus and Grafana.
+
 ### Topics:
 kubernetes
 devops
@@ -114,7 +135,6 @@ docker
 helm
 prometheus
 grafana
-
 
 This makes your repo searchable and professional.
 
