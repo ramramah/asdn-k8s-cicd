@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: asdn-project-service
+  namespace: asdn
 spec:
   selector:
     app: asdn-project
@@ -9,4 +10,4 @@ spec:
   ports:
     - port: 80
       targetPort: 8000
-      nodePort: 30080
+      nodePort: 30081

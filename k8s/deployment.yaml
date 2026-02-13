@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: asdn-project
+  namespace: asdn
   labels:
     app: asdn-project
 spec:
@@ -16,16 +17,26 @@ spec:
     spec:
       containers:
         - name: asdn-project
-          image: grafanaw/asdn_project:1.0.2
-          imagePullPolicy: IfNotPresent
+          image: grafanaw/asdn_project:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
           readinessProbe:
             httpGet:
               path: /health
               port: 8000
             initialDelaySeconds: 5
             periodSeconds: 10
+
           livenessProbe:
             httpGet:
               path: /health

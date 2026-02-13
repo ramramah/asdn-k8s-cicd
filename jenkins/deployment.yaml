@@ -16,10 +16,17 @@ spec:
       serviceAccountName: jenkins-deployer
       containers:
         - name: jenkins
-          image: ramramah/jenkins-asdn:lts
-          imagePullPolicy: IfNotPresent
+          image: grafanaw/jenkins_custom:lts
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
+
+          # ✅ Fix: allow Jenkins to access /var/run/docker.sock (owned by root:root)
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: true
+
           resources:
             requests:
               cpu: "500m"
