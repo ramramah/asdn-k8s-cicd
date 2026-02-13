@@ -68,16 +68,16 @@ asdn-k8s-cicd/
 
 ## 🚀 Kubernetes Deployment
 
-Apply manifests:
-
-```bash
+Apply manifests:```bash
 
 Verify deployment:
 kubectl get pods
 kubectl get deployments
 kubectl get svc
 
-🔐 Kubernetes Authentication (Jenkins)
+----------
+
+## 🔐 Kubernetes Authentication (Jenkins)
 
 A ServiceAccount was created for secure cluster access:
 kubectl create namespace jenkins
@@ -86,7 +86,9 @@ kubectl create clusterrolebinding jenkins-deployer-binding \
   --clusterrole=cluster-admin \
   --serviceaccount=jenkins:jenkins-deployer
 
-📊 Monitoring Stack
+----------
+
+## 📊 Monitoring Stack
 
 Installed using Helm:
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -96,10 +98,13 @@ kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
 Then open:
 http://localhost:3000
 
-✅ Final Validation
+----------
+
+## ✅ Final Validation
+
 kubectl rollout status deployment asdn-project
 
-🎯 Key Features
+## 🎯 Key Features
 
 Automated CI/CD pipeline
 
@@ -112,3 +117,5 @@ Secure Jenkins authentication
 Monitoring with Prometheus & Grafana
 
 Self-healing & scalable architecture
+
+
