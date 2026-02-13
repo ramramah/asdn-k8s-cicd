@@ -43,7 +43,7 @@ Apply manifests:
 kubectl apply -f k8s/
 
 
-## 📂 Project Structure
+**##**📂 Project Structure
 
 Verify deployment:
 kubectl get pods
