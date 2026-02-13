@@ -68,36 +68,39 @@ asdn-k8s-cicd/
 
 ## 🚀 Kubernetes Deployment
 
-Apply manifests:```bash
-
+Apply manifests:
+```bash
+kubectl apply -f k8s/
 Verify deployment:
 kubectl get pods
 kubectl get deployments
 kubectl get svc
-
+```
 ----------
 
 ## 🔐 Kubernetes Authentication (Jenkins)
 
 A ServiceAccount was created for secure cluster access:
 kubectl create namespace jenkins
+```bash
 kubectl create serviceaccount jenkins-deployer -n jenkins
 kubectl create clusterrolebinding jenkins-deployer-binding \
   --clusterrole=cluster-admin \
   --serviceaccount=jenkins:jenkins-deployer
-
+```
 ----------
 
 ## 📊 Monitoring Stack
 
 Installed using Helm:
+```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring
 Access Grafana:
 kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
 Then open:
 http://localhost:3000
-
+```
 ----------
 
 ## ✅ Final Validation
