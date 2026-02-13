@@ -24,9 +24,6 @@ The pipeline automates build, testing, image publishing, deployment, and monitor
 
 ## 🏗 Architecture Overview
 
-
----
-
 ---
 
 ## ⚙️ CI/CD Pipeline Stages
@@ -77,7 +74,6 @@ Access Grafana:
 
 kubectl -n monitoring port-forward svc/monitoring-grafana 3000:80
 
-
 Then open:
 
 http://localhost:3000
@@ -98,7 +94,6 @@ Secure Jenkins authentication
 Monitoring with Prometheus & Grafana
 
 Self-healing & scalable architecture
-
 
 ---
 
